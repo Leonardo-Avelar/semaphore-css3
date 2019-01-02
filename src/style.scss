@@ -1,0 +1,102 @@
+$time: 3;
+$light-shadow-red: 0 0 50px lighten(red, 25%);
+
+:root {
+  --semaphore-size: 80px; // 150
+  --light-on: grayscale(0);
+  --light-off: grayscale(50%);
+  //--light-shadow-red: calc(lighten(red, 5%));//#ea4444
+  --light-shadow-yellow: 0 0 50px yellow;
+  --light-shadow-green: 0 0 50px green;
+}
+body {
+  background: #1a1c1d;
+}
+h1 {
+    font-family: sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    color: #ccc;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 100px);
+}
+.semaphore {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3% 0;
+  margin: 10px;
+  width: var(--semaphore-size);
+  height: calc(var(--semaphore-size) * 2);
+  height: fit-content;
+  background: #000;
+  //border: 2px solid #777;
+  border-radius: 5%;
+  box-shadow: 0 0 5px #999;
+  
+  &__light {
+    margin: 10% 0;
+    width: calc(var(--semaphore-size) / 2);
+    height: calc(var(--semaphore-size) / 2);
+    border-radius: 50%;
+    filter: var(--light-off);
+    
+    @mixin animation($name, $duration, $delay) {
+      animation-name: $name;
+      animation-delay: $delay+s;
+      animation-duration: $duration+s;
+      animation-iteration-count: infinite;
+      //animation-direction: alternate;
+      animation-timing-function: step-end;
+    }
+    &--red {
+      background: red;
+      @include animation(lightRed, $time, 0);
+    }    
+    &--yellow {
+      background: yellow;
+      @include animation(lightYellow, $time, (($time * 40) / 100));
+    }
+    &--green {
+      background: green;
+      @include animation(lightGreen, $time, 0);
+    }
+    
+    @keyframes lightRed{
+      0% {
+        filter: var(--light-on);
+        box-shadow: $light-shadow-red;
+      }
+      50% {
+        filter: var(--light-off);
+        box-shadow: none;
+      }
+    }
+    @keyframes lightYellow{
+      0%, 60% {
+        filter: var(--light-off);
+        box-shadow: none;
+      }
+      50% {
+        filter: var(--light-on);
+        box-shadow: var(--light-shadow-yellow);
+      }
+    }
+    @keyframes lightGreen{
+      0%, 90% {
+        filter: var(--light-off);
+        box-shadow: none;
+      }
+      50% {
+        filter: var(--light-on);
+        box-shadow: var(--light-shadow-green);
+      }
+    }
+    
+  }
+}
